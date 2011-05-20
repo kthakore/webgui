@@ -1,0 +1,13 @@
+Files to work in for Image::Magick Refactor:
+
+lib/WebGUI/Storage.pm
+lib/WebGUI/Image.pm
+sbin/thumbnailer.pl
+sbin/galleryImport.pl
+sbin/testEnvironment.pl
+t/Storage/Image.t
+t/Macro/Thumbnail.t
+t/Storage.t
+t/Asset/File/Image.t
+t/Asset/File/GalleryFile/Photo/makeResolutions.t
+t/Asset/File/GalleryFile/Photo/adjustOrientation.t
