@@ -9,8 +9,69 @@ use Image::Magick;
 
 sub new 
 {
+	my $class = shift;
 	
-	return Image::Magick->new( @_ );
+	my $wrap = bless {@_}, $class;
+	$wrap->{core} = Image::Magick->new( @_ );
+
+	return $wrap; 
+	# return $warp->{core}; 
+
+}
+
+sub Set
+{
+	my $self = shift;
+
+	$self->{core}->Set( @_ );
+
+}
+
+sub ReadImage
+{
+	my $self = shift;
+
+	$self->{core}->ReadImage( @_ );
+
+}
+
+sub AddNoise
+{
+	my $self = shift;
+
+	$self->{core}->AddNoise( @_ );
+
+}
+
+sub Draw
+{
+	my $self = shift;
+
+	$self->{core}->Draw( @_ );
+
+}
+
+sub Blur
+{
+	my $self = shift;
+
+	$self->{core}->Blur( @_ );
+
+}
+
+sub Border
+{
+	my $self = shift;
+
+	$self->{core}->Border( @_ );
+
+}
+
+sub Write
+{
+	my $self = shift;
+
+	$self->{core}->Write( @_ );
 
 }
 
@@ -18,19 +79,6 @@ sub new
 =pod
 
 =head1 REFACTOR TODO FROM WebGUI::Storage 
-
-=head2 addFileFromCaptcha
-
-	my $image = WebGUI::Graphics->new();
-	$error = $image->Set(size=>'200x50');
-    $error = $image->ReadImage('xc:white');
-    $error = $image->AddNoise(noise=>"Multiplicative");
-    $error = $image->Annotate(font=>WebGUI::Paths->share.'/default.ttf', pointsize=>40, skewY=>0, skewX=>0, gravity=>'center', fill=>'#ffffff', antialias=>'true', text=>$challenge);
-    $error = $image->Draw(primitive=>"line", points=>"5,5 195,45", stroke=>'#ffffff', antialias=>'true', strokewidth=>2);
-    $error = $image->Blur(geometry=>"9");
-    $error = $image->Set(type=>"Grayscale");
-    $error = $image->Border(fill=>'black', width=>1, height=>1);
-    $error = $image->Write($self->getPath($filename));
 
 =head2 generateThumbnail 
 
