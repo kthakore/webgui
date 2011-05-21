@@ -75,18 +75,29 @@ sub Write
 
 }
 
+sub Get 
+{
+	my $self = shift;
+	
+	$self->{core}->Get( @_ );
+}
+
+sub Scale 
+{
+	my $self = shift;
+
+	$self->{core}->Scale( @_ );
+}
+
+sub Sharpen
+{
+	$_[0]->{core}->Sharpen( @_ );
+}
+
 1;
 =pod
 
 =head1 REFACTOR TODO FROM WebGUI::Storage 
-
-=head2 generateThumbnail 
-
-        my $error = $image->Read($self->getPath($filename));
-        my ($x, $y) = $image->Get('width','height');
-                $image->Scale(width=>$x,height=>$y);
-		$image->Sharpen('0.0x1.0');
-        $error = $image->Write($self->getPath.'/'.'thumb-'.$filename);
 
 =head2 getSize 
 
