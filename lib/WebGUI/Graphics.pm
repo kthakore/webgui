@@ -21,109 +21,74 @@ sub new
 
 sub Set
 {
-	my $self = shift;
-
-	$self->{core}->Set( @_ );
-
+	my $self = shift; return $self->{core}->Set( @_ );
 }
 
 sub ReadImage
 {
-	my $self = shift;
-
-	$self->{core}->ReadImage( @_ );
-
+	my $self = shift; return $self->{core}->ReadImage( @_ );
 }
 
 sub AddNoise
 {
-	my $self = shift;
-
-	$self->{core}->AddNoise( @_ );
-
+	my $self = shift; return $self->{core}->AddNoise( @_ );
 }
 
 sub Draw
 {
-	my $self = shift;
-
-	$self->{core}->Draw( @_ );
-
+	my $self = shift; return $self->{core}->Draw( @_ );
 }
 
 sub Blur
 {
-	my $self = shift;
-
-	$self->{core}->Blur( @_ );
-
+	my $self = shift; return $self->{core}->Blur( @_ );
 }
 
 sub Border
 {
-	my $self = shift;
-
-	$self->{core}->Border( @_ );
-
+	my $self = shift; return $self->{core}->Border( @_ );
 }
 
 sub Write
 {
-	my $self = shift;
-
-	$self->{core}->Write( @_ );
-
+	my $self = shift; return $self->{core}->Write( @_ );
 }
 
 sub Get 
 {
-	my $self = shift;
-	
-	$self->{core}->Get( @_ );
+	my $self = shift; return $self->{core}->Get( @_ );
 }
 
 sub Scale 
 {
-	my $self = shift;
-
-	$self->{core}->Scale( @_ );
+	my $self = shift; return $self->{core}->Scale( @_ );
 }
 
 sub Sharpen
 {
-	$_[0]->{core}->Sharpen( @_ );
+	my $self = shift; return $self->{core}->Sharpen( @_ );
+}
+
+sub Read
+{
+	my $self = shift; return $self->{core}->Read( @_ );
+}
+
+
+sub Crop
+{
+	my $self = shift; return $self->{core}->Crop( @_ );
+}
+
+sub Rotate
+{
+	my $self = shift; return $self->{core}->Rotate( @_ );
+}
+
+sub Resize
+{
+	my $self = shift; return $self->{core}->Resize( @_ );
 }
 
 1;
-=pod
 
-=head1 REFACTOR TODO FROM WebGUI::Storage 
-
-=head2 getSize 
-
-        my $image = WebGUI::Graphics->new;
-        my $error = $image->Read($self->getPath($filename));
-        my ($x, $y) = $image->Get('width','height');
-
-=head2 getSizeInPixels
-        my $error = $image->Read($self->getPath($filename));
-        return $image->Get('width','height');
-
-=head2 crop 
-    my $error = $image->Read($self->getPath($filename));
-        $image->Crop( height => $height, width => $width, x => $x, y => $y );
-    $error = $image->Write($self->getPath($filename));
-
-=head2 rotate  
-
-    my $error = $image->Read($self->getPath($filename));
-    $image->Rotate( $degree );
-    $error = $image->Write($self->getPath($filename));
-
-=head2 resize 
-    my $error = $image->Read($self->getPath($filename));
-        $image->Set( density => "${density}x${density}" );
-        my ($x, $y) = $image->Get('width','height');
-        $image->Resize( height => $height, width => $width );
-    $error = $image->Write($self->getPath($filename));
-=cut 
