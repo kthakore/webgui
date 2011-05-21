@@ -22,7 +22,7 @@ use File::Copy ();
 use File::Find ();
 use File::Path ();
 use File::Spec;
-use Image::Magick;
+use WebGUI::Graphics;
 use Path::Class::Dir;
 use Storable ();
 use WebGUI::Paths;
@@ -246,7 +246,7 @@ sub addFileFromCaptcha {
 	my $challenge;
 	$challenge .= ('A'..'Z')[rand(26)] foreach (1..6);
 	my $filename = "captcha.".$self->session->id->generate().".gif";
-	my $image = Image::Magick->new();
+	my $image = WebGUI::Graphics->new();
 	$error = $image->Set(size=>'200x50');
 	if($error) {
         $self->session->log->warn("Error setting captcha image size: $error");
@@ -827,7 +827,7 @@ sub generateThumbnail {
 		$self->session->log->warn("Can't generate a thumbnail for something that's not an image.");
 		return 0;
 	}
-        my $image = Image::Magick->new;
+        my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
 	if ($error) {
 		$self->session->log->error("Couldn't read image for thumbnail creation: ".$error);
@@ -914,7 +914,7 @@ The file to generate a thumbnail for.
 sub getSize {
 	my $self = shift;
 	my $filename = shift;
-        my $image = Image::Magick->new;
+        my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
 	if ($error) {
 		$self->session->log->error("Couldn't read image for size reading: ".$error);
@@ -1242,7 +1242,7 @@ sub getSizeInPixels {
 		$self->session->log->error("Can't check the size of something that's not an image.");
 		return 0;
 	}
-        my $image = Image::Magick->new;
+        my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
 	if ($error) {
 		$self->session->log->error("Couldn't read image to check the size of it: ".$error);
@@ -1415,7 +1415,7 @@ sub crop {
         $self->session->log->error("Can't resize with no resizing parameters.");
         return 0;
     }
-    my $image = Image::Magick->new;
+    my $image = WebGUI::Graphics->new;
     my $error = $image->Read($self->getPath($filename));
     if ($error) {
         $self->session->log->error("Couldn't read image for resizing: ".$error);
@@ -1547,7 +1547,7 @@ sub rotate {
         $self->session->log->error("Can't rotate something that's not an image.");
         return 0;
     }
-    my $image = Image::Magick->new;
+    my $image = WebGUI::Graphics->new;
     my $error = $image->Read($self->getPath($filename));
     if ($error) {
         $self->session->log->error("Couldn't read image for resizing: ".$error);
@@ -1611,7 +1611,7 @@ sub resize {
         $self->session->log->error("Can't resize with no resizing parameters.");
         return 0;
     }
-    my $image = Image::Magick->new;
+    my $image = WebGUI::Graphics->new;
     my $error = $image->Read($self->getPath($filename));
     if ($error) {
         $self->session->log->error("Couldn't read image for resizing: ".$error);
