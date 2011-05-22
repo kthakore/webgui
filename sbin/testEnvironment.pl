@@ -179,6 +179,9 @@ checkModule('Devel::StackTrace::WithLexicals',  '0.03'   );
 checkModule('Data::ICal',                   '0.16'       );
 checkModule('Geo::Coder::Googlev3',         '0.07'       );
 checkModule('IO::File::WithPath',                        );
+checkModule('IO::Socket::INET6',						 );
+checkModule('Time::Format_XS',							 );
+checkModule('Color::Object',							 );
 
 failAndExit("Required modules are missing, running no more checks.") if $missingModule;
 
