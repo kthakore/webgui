@@ -182,6 +182,7 @@ checkModule('IO::File::WithPath',                        );
 checkModule('IO::Socket::INET6',						 );
 checkModule('Time::Format_XS',							 );
 checkModule('Color::Object',							 );
+checkModule('Graphics::ColorObject',					 );
 
 failAndExit("Required modules are missing, running no more checks.") if $missingModule;
 
