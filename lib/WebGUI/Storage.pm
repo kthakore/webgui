@@ -243,7 +243,6 @@ Note: captcha images will NOT be synchronized to a CDN, even if other files are.
 sub addFileFromCaptcha {
 	my $self = shift;
     my $error = "";
-	$self->session->info("KTHAKORE:Made a captcha");
 	my $challenge;
 	$challenge .= ('A'..'Z')[rand(26)] foreach (1..6);
 	my $filename = "captcha.".$self->session->id->generate().".gif";

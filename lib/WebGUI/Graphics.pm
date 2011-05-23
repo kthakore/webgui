@@ -90,5 +90,11 @@ sub Resize
 	my $self = shift; return $self->{core}->Resize( @_ );
 }
 
+sub Annotate
+{
+	my $self = shift; return $self->{core}->Annotate( @_ );
+}
+
+
 1;
 
