@@ -853,7 +853,7 @@ sub generateThumbnail {
 =cut 
 
 	if ($error) {
-		$self->session->log->error("Couldn't create thumbnail: ".$error);
+		$self->session->log->error($error);
 		return 0;
 	}
 	return 1;
