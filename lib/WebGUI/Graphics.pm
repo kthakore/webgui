@@ -6,6 +6,9 @@ use strict;
 use warnings;
 use Carp qw( croak );
 use Image::Magick;
+use GD;
+use GD::Thumbnail; 
+
 
 sub new 
 {
@@ -95,6 +98,43 @@ sub Annotate
 	my $self = shift; return $self->{core}->Annotate( @_ );
 }
 
+sub genThumbnailRefactor {
+
+	my $filename = shift;
+	my $thumbnailSize = shift; 
+	my $thumbname = shift; 
+
+	# Open the image or return the error message 
+	my $image = GD::Image->new( $filename ) || return "Couldn't read image for thumbnail creation: $!"; 
+	my ($x, $y) = $image->getBounds();
+	my $thumb = GD::Thumbnail->new || return $!;
+	my $raw = $image->gd; 
+	my $n = $thumbnailSize;
+	    if ($x > $n || $y > $n) {
+                my $r = $x>$y ? $x / $n : $y / $n;
+                $x /= $r;
+                $y /= $r;
+                if($x < 1) { $x = 1 } # Dimentions < 1 cause Scale to fail
+                if($y < 1) { $y = 1 }
+ 				$raw   = $thumb->create( $filename, $x, $y);
+			}
+    
+	my $error = write_gd( $thumbname, $raw );
+	return $error; 	
+}
+
+sub write_gd
+{
+	my $filename = shift;
+	my $raw = shift; 
+   
+   open    IMG, ">$filename" or return $!;
+   binmode IMG;
+   print   IMG $raw;
+   close   IMG;
+
+	return 0;
+}
 
 1;
 

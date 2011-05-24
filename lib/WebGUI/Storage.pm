@@ -827,8 +827,13 @@ sub generateThumbnail {
 		$self->session->log->warn("Can't generate a thumbnail for something that's not an image.");
 		return 0;
 	}
+=pod 
         my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
+
+=cut 
+		my $error = WebGUI::Graphics::genThumbnailRefactor( $self->getPath($filename), $thumbnailSize, $self->getPath.'/'.'thumb-'.$filename );
+=pod
 	if ($error) {
 		$self->session->log->error("Couldn't read image for thumbnail creation: ".$error);
 		return 0;
@@ -845,11 +850,14 @@ sub generateThumbnail {
 		$image->Sharpen('0.0x1.0');
         }
         $error = $image->Write($self->getPath.'/'.'thumb-'.$filename);
+=cut 
+
 	if ($error) {
 		$self->session->log->error("Couldn't create thumbnail: ".$error);
 		return 0;
 	}
 	return 1;
+
 }
 
 
