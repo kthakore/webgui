@@ -8,6 +8,7 @@ use Carp qw( croak );
 use Image::Magick;
 use GD;
 use GD::Thumbnail;
+use GD::SecurityImage;
 
 sub new {
     my $class = shift;
@@ -110,6 +111,22 @@ sub genThumbnailRefactor {
     $raw = $thumb->create( $filename, $n );
     my $error = write_gd( $thumbname, $raw );
     return "Couldn't create thumbnail: $error" if $error;
+}
+
+sub addFileFromCaptchaRefactor {
+
+    my $filename  = shift;
+    my $challenge = shift;
+    my $ttf       = shift;
+
+    my $image = GD::SecurityImage->new( width => 200, height => 50, gd => 1, itype => 'gif', font => $ttf );
+    $image->random($challenge);
+    $image->create( 'ttf', 'circle', [ 255, 255, 255 ], [ 120, 200, 200 ] );
+    $image->particle;
+    my ( $image_data, $mime_type, $random_number ) = $image->out;
+
+    return write_gd( $filename, $image_data );
+
 }
 
 sub write_gd {

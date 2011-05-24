@@ -246,6 +246,8 @@ sub addFileFromCaptcha {
 	my $challenge;
 	$challenge .= ('A'..'Z')[rand(26)] foreach (1..6);
 	my $filename = "captcha.".$self->session->id->generate().".gif";
+
+=pod 
 	my $image = WebGUI::Graphics->new();
 	$error = $image->Set(size=>'200x50');
 	if($error) {
@@ -280,7 +282,11 @@ sub addFileFromCaptcha {
 	if($error) {
         $self->session->log->warn("Error setting border: $error");
     }
-    $error = $image->Write($self->getPath($filename));
+=cut 
+
+#    $error = $image->Write($self->getPath($filename));
+	$error = WebGUI::Graphics::addFileFromCaptchaRefactor( $self->getPath($filename), $challenge, WebGUI::Paths->share.'/default.ttf' );
+
 	if($error) {
         $self->session->log->warn("Error writing image: $error");
     }
