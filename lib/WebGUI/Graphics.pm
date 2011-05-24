@@ -125,7 +125,7 @@ sub write_gd {
     my $filename = shift;
     my $raw      = shift;
 
-    open my $IMG, ">", "$filename" or return $!;
+    open my $IMG, ">", $filename or return $!;
     binmode $IMG;
     print $IMG $raw;
     close $IMG;
