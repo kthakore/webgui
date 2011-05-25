@@ -129,6 +129,17 @@ sub addFileFromCaptchaRefactor {
 
 }
 
+sub getSizeRefactor {
+
+	my $self = shift; 
+	
+	my $filename = shift;
+	
+	my $image = GD::Image->new($filename) || $self->session->log->error( "Couldn't read image for size reading $!" );
+
+	return	$image->getBounds();
+}
+
 sub write_gd {
     my $filename = shift;
     my $raw      = shift;

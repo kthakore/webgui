@@ -928,6 +928,8 @@ The file to generate a thumbnail for.
 sub getSize {
 	my $self = shift;
 	my $filename = shift;
+
+=pod
         my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
 	if ($error) {
@@ -937,6 +939,10 @@ sub getSize {
         my ($x, $y) = $image->Get('width','height');
 
 	return($x, $y);
+=cut 
+
+	return WebGUI::getSizeRefactor($self, $filename);
+
 }
 
 
