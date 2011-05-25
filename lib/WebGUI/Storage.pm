@@ -27,6 +27,8 @@ use Path::Class::Dir;
 use Storable ();
 use WebGUI::Paths;
 use JSON ();
+use Try::Tiny;
+use GD;
 
 
 =head1 NAME
@@ -1273,7 +1275,22 @@ sub getSizeInPixels {
         return $image->Get('width','height');
 
 =cut 
-	return WebGUI::Graphics::getSizeRefactor($self, $filename);
+
+	my $error; 
+	my $image; 
+	try
+	{
+		$image = GD::Image->new($filename) or die  "Couldn't read image for size reading $!";
+		return	$image->getBounds();
+
+	}
+	catch
+	{
+		$self->session->log($_);
+		return 0;
+	
+	};
+
 }
 
 

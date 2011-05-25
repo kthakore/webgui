@@ -9,6 +9,7 @@ use Image::Magick;
 use GD;
 use GD::Thumbnail;
 use GD::SecurityImage;
+use Try::Tiny;
 
 sub new {
     my $class = shift;
@@ -136,16 +137,19 @@ sub getSizeRefactor {
 	my $filename = shift;
 
 	my $error; 
-	
-	my $image = GD::Image->new($filename) || $error =  "Couldn't read image for size reading $!";
-	
-	if( $error) 
+	my $image; 
+	try
 	{
-		$self->session->log($error);
-		return 0;
-	} 
+		$image = GD::Image->new($filename) or die  "Couldn't read image for size reading $!";
+		return	$image->getBounds();
 
-	return	$image->getBounds();
+	}
+	catch
+	{
+		$self->session->log($_);
+		return 0;
+	
+	};
 }
 
 sub write_gd {
