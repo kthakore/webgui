@@ -1262,6 +1262,8 @@ sub getSizeInPixels {
 		$self->session->log->error("Can't check the size of something that's not an image.");
 		return 0;
 	}
+
+=pod 
         my $image = WebGUI::Graphics->new;
         my $error = $image->Read($self->getPath($filename));
 	if ($error) {
@@ -1269,6 +1271,9 @@ sub getSizeInPixels {
 		return 0;
 	}
         return $image->Get('width','height');
+
+=cut 
+	return WebGUI::Graphics::getSizeRefactor($self, $filename);
 }
 
 
