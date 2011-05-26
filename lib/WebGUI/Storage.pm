@@ -1440,6 +1440,8 @@ sub crop {
         $self->session->log->error("Can't resize with no resizing parameters.");
         return 0;
     }
+
+=pod 
     my $image = WebGUI::Graphics->new;
     my $error = $image->Read($self->getPath($filename));
     if ($error) {
@@ -1461,6 +1463,11 @@ sub crop {
     }
 
     return 1;
+
+=cut 
+
+	return WebGUI::Graphics::cropRefactor( $self, $self->getPath($filename), $x, $y);
+
 }
 
 #-------------------------------------------------------------------

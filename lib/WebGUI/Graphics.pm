@@ -130,30 +130,63 @@ sub addFileFromCaptchaRefactor {
 
 }
 
+sub cropRefactor {
+    my $self     = shift;
+    my $filename = shift;
+    my $width    = shift;
+    my $height   = shift;
+    my $x        = shift;
+    my $y        = shift;
+
+    try {
+
+        my $image = GD::Image->new($filename) || die "Couldn't read image for resizing: " . $!;
+
+        my $crop_img = GD::Image->new( $width, $height );
+
+        $self->session->log->info("Resizing $filename to w:$width h:$height x:$x y:$y");
+
+        $crop_img->copy( $image, $x, $y, 0, 0, $width, $height );
+
+        my $error = write_gd( $filename, $crop_img->gd );
+
+        if ($error) {
+            $self->session->log->error( "Couldn't resize image: " . $error );
+            return 0;
+        }
+
+    } ## end try
+    catch {
+
+        $self->session->log->error($_);
+        return 0;
+
+    };
+
+    return 1;
+} ## end sub cropRefactor
+
 sub getSizeRefactor {
 
-	my $self = shift; 
-	
-	my $filename = shift;
+    my $self = shift;
 
-	my $error; 
-	my $image; 
-	try
-	{
-		$image = GD::Image->new($filename) or die  "Couldn't read image to check the size of it: ". $!;
-		my ($x, $y) = $image->getBounds();
-		return ($x, $y);
+    my $filename = shift;
 
-	}
-	catch
-	{
-		$self->session->log->error($_);
-		return 0;
-	
-	};
-		
+    my $error;
+    my $image;
+    try {
+        $image = GD::Image->new($filename) or die "Couldn't read image to check the size of it: " . $!;
+        my ( $x, $y ) = $image->getBounds();
+        return ( $x, $y );
 
-}
+    }
+    catch {
+        $self->session->log->error($_);
+        return 0;
+
+    };
+
+} ## end sub getSizeRefactor
 
 sub write_gd {
     my $filename = shift;
