@@ -140,16 +140,19 @@ sub getSizeRefactor {
 	my $image; 
 	try
 	{
-		$image = GD::Image->new($filename) or die  "Couldn't read image for size reading $!";
-		return	$image->getBounds();
+		$image = GD::Image->new($filename) or die  "Couldn't read image to check the size of it: ". $!;
+		my ($x, $y) = $image->getBounds();
+		return ($x, $y);
 
 	}
 	catch
 	{
-		$self->session->log($_);
+		$self->session->log->error($_);
 		return 0;
 	
 	};
+		
+
 }
 
 sub write_gd {

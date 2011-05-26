@@ -941,7 +941,7 @@ sub getSize {
 	return($x, $y);
 =cut 
 
-	return WebGUI::getSizeRefactor($self, $filename);
+	return WebGUI::getSizeRefactor($self, $self->getPath($filename));
 
 }
 
@@ -1273,7 +1273,7 @@ sub getSizeInPixels {
         return $image->Get('width','height');
 
 =cut 
-	return WebGUI::Graphics::getSizeRefactor($self, $filename);
+	return WebGUI::Graphics::getSizeRefactor($self, $self->getPath($filename) );
 }
 
 
