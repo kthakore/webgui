@@ -1466,7 +1466,7 @@ sub crop {
 
 =cut 
 
-	return WebGUI::Graphics::cropRefactor( $self, $self->getPath($filename), $x, $y);
+	return WebGUI::Graphics::cropRefactor( $self, $self->getPath($filename), $width, $height, $x, $y);
 
 }
 
