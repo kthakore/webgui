@@ -142,33 +142,28 @@ sub cropRefactor {
 
         my $image = GD::Image->new($filename) || die "Couldn't read image for resizing: " . $!;
 
-        my $crop_img = GD::Image->new( $width, $height);
+        my $crop_img = GD::Image->new( $width, $height );
 
         $self->session->log->info("Resizing $filename to w:$width h:$height x:$x y:$y");
 
-        $crop_img->copy( $image, 0, 0, $x+150, $y-200, $width, $height );
+        $crop_img->copy( $image, 0, 0, $x + 150, $y - 200, $width, $height );
 
-		my $ext = $self->getFileExtension( $filename );
+        my $ext = $self->getFileExtension($filename);
 
-
-		my $error; 
-		if( $ext =~ 'png') 	
-        {
-			$self->session->log->info("Exporting png croped");
-			$error = write_gd( $filename, $crop_img->png );
-		}
-		elsif( $ext =~ /jpeg|jpg/ )
-		{	
-			 $error = write_gd( $filename, $crop_img->jpeg );
-		}
-		elsif( $ext =~ 'gif' )
-		{
-			$error = write_gd( $filename, $crop_img->gif );
-		}
-		elsif( $ext =~ 'bmp' )
-		{
-			$error = write_gd( $filename, $crop_img->wbmp );
-		}
+        my $error;
+        if ( $ext =~ 'png' ) {
+            $self->session->log->info("Exporting png croped");
+            $error = write_gd( $filename, $crop_img->png );
+        }
+        elsif ( $ext =~ /jpeg|jpg/ ) {
+            $error = write_gd( $filename, $crop_img->jpeg );
+        }
+        elsif ( $ext =~ 'gif' ) {
+            $error = write_gd( $filename, $crop_img->gif );
+        }
+        elsif ( $ext =~ 'bmp' ) {
+            $error = write_gd( $filename, $crop_img->wbmp );
+        }
 
         if ($error) {
             $self->session->log->error( "Couldn't resize image: " . $error );
