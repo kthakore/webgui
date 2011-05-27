@@ -146,7 +146,7 @@ sub cropRefactor {
 
         $self->session->log->info("Resizing $filename to w:$width h:$height x:$x y:$y");
 
-        $crop_img->copy( $image, 0, 0, $x, $y, $width, $height );
+        $crop_img->copy( $image, 0, 0, $x+150, $y-200, $width, $height );
 
 		my $ext = $self->getFileExtension( $filename );
 
