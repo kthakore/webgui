@@ -1579,6 +1579,7 @@ sub rotate {
         $self->session->log->error("Can't rotate something that's not an image.");
         return 0;
     }
+=pod
     my $image = WebGUI::Graphics->new;
     my $error = $image->Read($self->getPath($filename));
     if ($error) {
@@ -1595,6 +1596,8 @@ sub rotate {
         $self->session->log->error("Couldn't rotate image: ".$error);
         return 0;
     }
+=cut 
+	WebGUI::Graphics::rotateRefactor($self, $self->getPath($filename), $degree);	
 
     return 1;
 }

@@ -10,6 +10,9 @@ use GD;
 use GD::Thumbnail;
 use GD::SecurityImage;
 use Try::Tiny;
+use Math::Trig;
+use Math::Round qw(round);
+use List::Util qw(min max);
 
 sub new {
     my $class = shift;
@@ -202,6 +205,74 @@ sub getSizeRefactor {
     };
 
 } ## end sub getSizeRefactor
+
+
+sub rotateRefactor 
+{
+	my $self	= shift;
+	my $filename = shift;
+	my $degree	= shift;
+
+	try {
+		my $image = GD::Image->new( $filename ) or die "Couldn't read image for resizing: ".$!;
+        my ( $x, $y ) = ($image->width, $image->height);
+
+		my $rad = deg2rad($degree);
+
+		my $sine = sin($rad);
+		my $cos= cos($rad);
+
+		my ($x1, $y1, $x2, $y2, $x3, $y3) = ( 
+		round( -$y * $sine ), 
+		round($y * $cos), 
+		round( $x * $cos - $y * $sine ),
+		round( $y * $cos + $x * $sine ),
+		round( $x * $cos ),
+		round( $x * $sine) 
+		);
+
+		my $minx = min( 0, $x1, $x2, $x3);
+		my $miny = min( 0, $y1, $y2, $y3);
+		my $maxx = max($x1, $x2, $x3);
+		my $maxy = max($y1, $y2, $y3);
+	
+		$self->session->log->info( "New max min ( $minx, $maxx) and ($miny, $maxy) " ); 
+
+		my $rot_image = GD::Image->new( $maxx-$minx, $maxy-$miny );
+		
+		$rot_image->copyRotated( $image, $image->width/2, $image->height/2, 0,0, $image->width, $image->height, $degree); 
+	
+        my $ext = $self->getFileExtension($filename);
+
+        my $error;
+        if ( $ext =~ 'png' ) {
+            $self->session->log->info("Exporting png croped");
+            $error = write_gd( $filename, $rot_image->png );
+        }
+        elsif ( $ext =~ /jpeg|jpg/ ) {
+            $error = write_gd( $filename, $rot_image->jpeg );
+        }
+        elsif ( $ext =~ 'gif' ) {
+            $error = write_gd( $filename, $rot_image->gif );
+        }
+        elsif ( $ext =~ 'bmp' ) {
+            $error = write_gd( $filename, $rot_image->wbmp );
+        }
+
+        if ($error) {
+            $self->session->log->error( "Couldn't resize image: " . $error );
+            return 0;
+        }
+
+  
+	}
+	catch
+	{
+		$self->session->log->error( $_ ); 
+		return 0;
+	};
+
+}
 
 sub write_gd {
     my $filename = shift;
