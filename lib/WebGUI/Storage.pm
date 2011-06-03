@@ -1659,6 +1659,8 @@ sub resize {
         $image->Set( density => "${density}x${density}" );
     }
 
+=pod 
+
     # Next, resize dimensions
     if ( $width || $height ) {
         if (!$height && $width =~ /^(\d+)x(\d+)$/) {
@@ -1683,7 +1685,11 @@ sub resize {
         return 0;
     }
 
-    return 1;
+     return 1;
+=cut 
+
+return WebGUI::Graphics::resizeRefactor( $self, $filename, $width, $height, $density);
+
 }
 
 #-------------------------------------------------------------------
